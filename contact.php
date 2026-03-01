@@ -123,6 +123,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="navbar-nav ms-auto">
           <a href="index.html" class="nav-item nav-link">Home</a>
           <a href="animal.html" class="nav-item nav-link">Rescue</a>
+          <a href="blog.html" class="nav-item nav-link">Blog</a>
           <a href="contact.php" class="nav-item nav-link active">Contact</a>
         </div>
         <a href="index.html#donate" class="btn btn-primary"
@@ -315,6 +316,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           <div class="col-lg-3 col-md-6 text-md-end">
             <h5 class="text-light mb-4">Popular Links</h5>
             <a class="btn btn-link" href="index.html#about">Our Story</a>
+            <a class="btn btn-link" href="blog.html">Blog</a>
             <a class="btn btn-link" href="contact.php">Contact Us</a>
             <a class="btn btn-link" href="index.html#donate">Donate</a>
           </div>
