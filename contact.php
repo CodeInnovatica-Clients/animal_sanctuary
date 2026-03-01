@@ -1,35 +1,27 @@
 <?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = strip_tags(trim($_POST["name"]));
+    $email = filter_var(trim($_POST["email"]), FILTER_SANITIZE_EMAIL);
+    $subject = strip_tags(trim($_POST["subject"]));
+    $message = trim($_POST["message"]);
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
+    if (empty($name) OR empty($message) OR !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $error = "Please complete the form and try again.";
+    } else {
+        $recipient = "info@onesanctuaryghana.org";
+        $email_subject = "New Contact: $subject";
+        $email_content = "Name: $name\n";
+        $email_content .= "Email: $email\n\n";
+        $email_content .= "Message:\n$message\n";
 
-require 'PHPMailer/PHPMailer.php';
-require 'PHPMailer/SMTP.php';
-require 'PHPMailer/Exception.php';
+        $email_headers = "From: $name <$email>";
 
-$mail = new PHPMailer(true);
-
-try {
-    $mail->isSMTP();
-    $mail->Host       = 'mail.yourdomain.com';
-    $mail->SMTPAuth   = true;
-    $mail->Username   = 'contact@yourdomain.com';
-    $mail->Password   = 'your_email_password';
-    $mail->SMTPSecure = 'ssl'; // or 'tls'
-    $mail->Port       = 465;   // or 587
-
-    $mail->setFrom('contact@yourdomain.com', 'Website Contact');
-    $mail->addAddress('admin@yourdomain.com');
-
-    $mail->Subject = 'New Contact Form Submission';
-    $mail->Body    = "Message from website";
-
-    $mail->send();
-
-    echo "Message sent successfully";
-
-} catch (Exception $e) {
-    echo "Mailer Error: {$mail->ErrorInfo}";
+        if (mail($recipient, $email_subject, $email_content, $email_headers)) {
+            $success = "Thank you! Your message has been sent.";
+        } else {
+            $error = "Oops! Something went wrong and we couldn't send your message.";
+        }
+    }
 }
 ?>
 <!DOCTYPE html>
