@@ -1,28 +1,35 @@
 <?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = strip_tags(trim($_POST["name"]));
-    $email = filter_var(trim($_POST["email"]), FILTER_SANITIZE_EMAIL);
-    $subject = strip_tags(trim($_POST["subject"]));
-    $message = trim($_POST["message"]);
 
-    if (empty($name) || empty($message) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $error = "Please complete the form and provide a valid email address.";
-    } else {
-        $recipient = "bernardantwi2010@gmail.com";
-        $email_subject = "New Contact from $name: $subject";
-        $email_content = "Name: $name\n";
-        $email_content .= "Email: $email\n\n";
-        $email_content .= "Subject: $subject\n\n";
-        $email_content .= "Message:\n$message\n";
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
-        $email_headers = "From: $name <$email>";
+require 'PHPMailer/PHPMailer.php';
+require 'PHPMailer/SMTP.php';
+require 'PHPMailer/Exception.php';
 
-        if (mail($recipient, $email_subject, $email_content, $email_headers)) {
-            $success = "Thank you! Your message has been sent.";
-        } else {
-            $error = "Oops! Something went wrong and we couldn't send your message.";
-        }
-    }
+$mail = new PHPMailer(true);
+
+try {
+    $mail->isSMTP();
+    $mail->Host       = 'mail.yourdomain.com';
+    $mail->SMTPAuth   = true;
+    $mail->Username   = 'contact@yourdomain.com';
+    $mail->Password   = 'your_email_password';
+    $mail->SMTPSecure = 'ssl'; // or 'tls'
+    $mail->Port       = 465;   // or 587
+
+    $mail->setFrom('contact@yourdomain.com', 'Website Contact');
+    $mail->addAddress('admin@yourdomain.com');
+
+    $mail->Subject = 'New Contact Form Submission';
+    $mail->Body    = "Message from website";
+
+    $mail->send();
+
+    echo "Message sent successfully";
+
+} catch (Exception $e) {
+    echo "Mailer Error: {$mail->ErrorInfo}";
 }
 ?>
 <!DOCTYPE html>
