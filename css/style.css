@@ -611,3 +611,29 @@
         font-size: 0.9rem;
     }
 }
+
+/*** Brand Logo and Text Scaling ***/
+.navbar .navbar-brand img {
+    /* Increases logo height from 50px to 75px */
+    max-height: 75px; 
+    transition: .5s;
+}
+
+.navbar .navbar-brand h5 {
+    /* Increases the font size and adjusts line height */
+    font-size: 1.5rem; 
+    line-height: 1.2;
+    font-weight: 700;
+    margin-left: 10px;
+}
+
+/* Responsive adjustment for mobile screens */
+@media (max-width: 991.98px) {
+    .navbar .navbar-brand img {
+        max-height: 60px;
+    }
+    
+    .navbar .navbar-brand h5 {
+        font-size: 1.1rem;
+    }
+}
